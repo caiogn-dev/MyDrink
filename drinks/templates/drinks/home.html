@@ -1,0 +1,62 @@
+{% extends 'drinks/base.html' %}
+
+{% block title %}MyDrink - Home{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4">Bem-vindo ao MyDrink</h1>
+        <p class="lead">Descubra as melhores receitas de drinks para qualquer ocasião.</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for drink in drinks %}
+    <div class="col-md-4 mb-4">
+        <div class="card drink-card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ drink.nome }}</h5>
+                <p class="card-text">{{ drink.descricao|truncatewords:20 }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary">{{ drink.categoria.nome }}</span>
+                    <span class="badge bg-secondary">{{ drink.dificuldade }}</span>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'drinks:drink_detail' drink.pk %}" class="btn btn-primary w-100">Ver Receita</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            Nenhum drink cadastrado ainda.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Navegação de páginas" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %} 

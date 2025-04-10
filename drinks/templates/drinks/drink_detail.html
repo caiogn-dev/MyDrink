@@ -1,0 +1,46 @@
+{% extends 'drinks/base.html' %}
+
+{% block title %}{{ drink.nome }} - MyDrink{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="display-4">{{ drink.nome }}</h1>
+        <div class="d-flex gap-2 mb-3">
+            <span class="badge bg-primary">{{ drink.categoria.nome }}</span>
+            <span class="badge bg-secondary">{{ drink.dificuldade }}</span>
+            <span class="badge bg-info">Tempo: {{ drink.tempo_preparo }} min</span>
+        </div>
+        <p class="lead">{{ drink.descricao }}</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <h2>Ingredientes</h2>
+        <div class="list-group mb-4">
+            {% for receita in drink.receitas.all %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-1">{{ receita.ingrediente.nome }}</h5>
+                    <span class="badge bg-primary rounded-pill">
+                        {{ receita.quantidade }} {{ receita.ingrediente.unidade_medida }}
+                    </span>
+                </div>
+                {% if receita.instrucoes %}
+                <p class="mb-1 text-muted">{{ receita.instrucoes }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <a href="{% url 'drinks:home' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar para lista de drinks
+        </a>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,49 @@
+{% extends 'drinks/base.html' %}
+
+{% block title %}{{ categoria.nome }} - MyDrink{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4">{{ categoria.nome }}</h1>
+        <div class="d-flex gap-2 mb-3">
+            <span class="badge bg-primary">{{ categoria.tipo }}</span>
+        </div>
+        <p class="lead">{{ categoria.descricao|default:"Sem descrição" }}</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for drink in drinks %}
+    <div class="col-md-4 mb-4">
+        <div class="card drink-card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ drink.nome }}</h5>
+                <p class="card-text">{{ drink.descricao|truncatewords:20 }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-secondary">{{ drink.dificuldade }}</span>
+                    <span class="badge bg-info">Tempo: {{ drink.tempo_preparo }} min</span>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'drinks:drink_detail' drink.pk %}" class="btn btn-primary w-100">Ver Receita</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            Nenhum drink cadastrado nesta categoria.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <a href="{% url 'drinks:categorias' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar para categorias
+        </a>
+    </div>
+</div>
+{% endblock %} 

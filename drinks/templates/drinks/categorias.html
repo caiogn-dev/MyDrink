@@ -1,0 +1,37 @@
+{% extends 'drinks/base.html' %}
+
+{% block title %}Categorias - MyDrink{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4">Categorias de Drinks</h1>
+        <p class="lead">Explore nossas categorias e encontre o drink perfeito para você.</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for categoria in categorias %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ categoria.nome }}</h5>
+                <p class="card-text">{{ categoria.descricao|default:"Sem descrição" }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary">{{ categoria.tipo }}</span>
+                    <a href="{% url 'drinks:categoria_detail' categoria.pk %}" class="btn btn-outline-primary">
+                        Ver Drinks
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            Nenhuma categoria cadastrada ainda.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 
